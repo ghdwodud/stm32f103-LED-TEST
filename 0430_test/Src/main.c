@@ -63,6 +63,7 @@ static void MX_GPIO_Init(void);
 void LatchClock(void);
 void shiftClock(void);
 void ByteDataWrite(uint8_t data);
+void ByteDataWrite_2(uint8_t data);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
@@ -109,12 +110,31 @@ int main(void)
 
 	while (1)
 	{
-		uint8_t pattern = 1 << index;
-		index = (index + 1) % 8;
 
-		ByteDataWrite(pattern);
+		if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_0) == 0)
+		{
+			for(int i=0; i<8; i++)
+			{
+			uint8_t pattern = 1 << index;
+					index = (index + 1) % 8;
 
-		HAL_Delay(300);
+					ByteDataWrite(pattern);
+
+					HAL_Delay(300);
+			}
+		}
+		else if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_1) == 0)
+		{
+			for(int i=0; i<8; i++)
+			{
+			uint8_t pattern = 1 << index;
+			index = (index + 1) % 8;
+
+			ByteDataWrite_2(pattern);
+
+			HAL_Delay(300);
+			}
+		}
 
   /* USER CODE END WHILE */
 

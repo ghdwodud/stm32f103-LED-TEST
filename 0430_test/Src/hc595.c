@@ -36,3 +36,22 @@ void ByteDataWrite(uint8_t data)
 	}
 	LatchClock();
 }
+
+void ByteDataWrite_2(uint8_t data)
+{
+	for (uint8_t i=0; i<8; i++)
+	{
+		if (data & 0b00000001)
+		{
+			HAL_GPIO_WritePin(DATAPORT, DATA, GPIO_PIN_SET);
+
+		}
+		else {
+			HAL_GPIO_WritePin(DATAPORT, DATA, GPIO_PIN_RESET);
+		}
+
+		shiftClock();
+		data = data >> 1;
+	}
+	LatchClock();
+}
